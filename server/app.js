@@ -30,7 +30,6 @@ passport.use(new Strategy(function(username, password, cb) {
 }));
 app.use(passport.initialize());
 
-
 // app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
