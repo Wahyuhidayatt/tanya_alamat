@@ -1,11 +1,12 @@
-let User = require('../models/user')
+let User = require('../models/user');
+let passwordHash = require('password-hash');
 
-let createUser = (req, res) => {
+let createUser = (req, res) => { //register
   let newUser = new User({
     username: req.body.username,
     email: req.body.email,
     role: req.body.role,
-    password: req.body.password
+    password : passwordHash.generate(req.body.password)
   })
 
   newUser.save((err,data) => {
