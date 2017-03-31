@@ -30,23 +30,22 @@ passport.use(new Strategy(function(username, password, cb) {
   })
 }));
 app.use(passport.initialize());
-<<<<<<< HEAD
-=======
+
+
 app.use('/api',users);
 app.use('/api/userTelegram',userTelegram);
 
->>>>>>> 5092527447a0b2663a9b122ddf2fb0f142f3afbf
 // app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 let mongoose= require('mongoose');
 mongoose.connect('mongodb://localhost/tanya_alamat');
 
-<<<<<<< HEAD
+
 
 app.use('/api',users);
 
-=======
->>>>>>> 5092527447a0b2663a9b122ddf2fb0f142f3afbf
+
+
 app.listen(3000, () => {
   console.log("Server berjalan...");
 });

@@ -13,17 +13,7 @@ bot.on('message', (msg, match) => {
   //console.log(msg.from.id);
   //console.log(msg);
   let chatId = msg.chat.id;
-  //Chat.insertChat(msg.from,msg.text,msg.date);
-  // gmaps.places({
-  //   query:`${msg.text}`
-  // },function(err,data){
-  //   //console.log(data.json.results[0].geometry.location);
-  //   bot.sendVenue(chatId,data.json.results[0].geometry.location.lat,
-  //                 data.json.results[0].geometry.location.lng,
-  //                 data.json.results[0].name,data.json.results[0].formatted_address)
-  //
-//    }
-// )
+//console.log(msg);
 
 });
 
@@ -43,7 +33,7 @@ bot.onText(/\/cari\s.+/,(msg,match)=>{
 
   Chat.insertChat(msg.from,chatText,msg.date);
   gmaps.places({
-    query:`${msg.text}`
+    query:`${chatText}`
   },function(err,data){
     //console.log(data.json.results[0].geometry.location);
     bot.sendVenue(chatId,data.json.results[0].geometry.location.lat,
@@ -59,19 +49,42 @@ bot.onText(/\/dekat\s.+/,(msg,match)=>{
   let chatText=msg.text.split(' ');
      chatText.shift();
      chatText=chatText.join(' ')
-  console.log(chatText);
+  //console.log(chatText);
 
-  Chat.insertChat(msg.from,chatText,msg.date);
-  gmaps.places({
-    query:`${msg.text}`
-  },function(err,data){
-    //console.log(data.json.results[0].geometry.location);
-    bot.sendVenue(chatId,data.json.results[0].geometry.location.lat,
-                  data.json.results[0].geometry.location.lng,
-                  data.json.results[0].name,data.json.results[0].formatted_address)
+  Chat.insertChat(msg.chat.id,chatText,msg.date);
+  bot.sendMessage(msg.chat.id,'tekan lama pada pesan ini lalu pilih reply dan reply location').then(
+    function(message){
+      //console.log('pesan dikirim bot',message);
+      bot.onReplyToMessage(message.chat.id,message.message_id,function(reply){
+        if (reply.location) {
+          //console.log(reply.location);
+          gmaps.places({
+            query:`${chatText}`,
+            location:[reply.location.latitude,reply.location.longitude],
+            radius:5000
+          },function(err,data){
+            //console.log(data.json.results[0].geometry.location);
+            for (var i = 0; i < 5; i++) {
+              bot.sendVenue(chatId,data.json.results[i].geometry.location.lat,
+                            data.json.results[i].geometry.location.lng,
+                            data.json.results[i].name,data.json.results[i].formatted_address)
+            }
 
-   }
-)
+
+
+            bot.removeReplyListener(sentMsg.chat.id, sentMsg.message_id);
+           }
+        )
+
+          //removeReplyListener(message.chat.id, message.message_id);
+        } else {
+          bot.sendMessage(reply.chat.id,'masukan location');
+        }
+
+      })
+    }
+  )
+
 });
 
 bot.onText(/\/cari/,(msg,match)=>{
