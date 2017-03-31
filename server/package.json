@@ -21,6 +21,7 @@
     "nodemon": "^1.11.0",
     "oauth": "^0.9.15",
     "passport": "^0.3.2",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "password-hash": "^1.2.2"
   }
 }
