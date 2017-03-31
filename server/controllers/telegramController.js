@@ -1,19 +1,25 @@
 let UserTelegram = require('../models/userTelegram');
 
-module.exports={
-   insertUser:function(user){
-     UserTelegram.create({
-       username:user.username,
-       id:user.id,
-       first_name:user.first_name,
-       last_name:user.last_name
-     },
-   function(err,succ){
+let readUserTelegram = (req, res) => {
+   UserTelegram.find({}).populate("chatlist").exec((err, result) => {
      if (err) {
-       console.log(err);
-     }else{
-       console.log('insert success');
-     }
-   })
-   }
+      res.send(err.message)
+    }else {
+      res.send(result)
+    }
+  });
+}
+
+let removeUserTelegram = (req, res) => {
+  UserTelegram.findByIdAndRemove(req.params.id, (err, success) => {
+    if (err) {
+      res.send(err.messagee)
+    }else {
+      res.send(`Data User telegram with ID ${req.params.id} has been delete!`)
+    }
+  })
+}
+
+module.exports = {
+  readUserTelegram, removeUserTelegram
 }

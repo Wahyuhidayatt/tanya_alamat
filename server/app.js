@@ -1,14 +1,14 @@
 const express = require('express');
 const app = express();
 const users = require('./routes/users');
+const userTelegram = require('./routes/userTelegrams');
 const bodyParser = require('body-parser');
-let bot = require('./bot')
+const bot = require('./bot')
+
 const passwordHash = require('password-hash');
 const passport = require ('passport');
 const Strategy = require('passport-local').Strategy;
 const User = require('./models/user');
-
-
 
 //passport local
 passport.use(new Strategy(function(username, password, cb) {
@@ -30,14 +30,23 @@ passport.use(new Strategy(function(username, password, cb) {
   })
 }));
 app.use(passport.initialize());
+<<<<<<< HEAD
+=======
+app.use('/api',users);
+app.use('/api/userTelegram',userTelegram);
+
+>>>>>>> 5092527447a0b2663a9b122ddf2fb0f142f3afbf
 // app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 let mongoose= require('mongoose');
 mongoose.connect('mongodb://localhost/tanya_alamat');
 
+<<<<<<< HEAD
 
 app.use('/api',users);
 
+=======
+>>>>>>> 5092527447a0b2663a9b122ddf2fb0f142f3afbf
 app.listen(3000, () => {
   console.log("Server berjalan...");
 });
