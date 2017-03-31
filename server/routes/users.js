@@ -8,7 +8,7 @@ const passport = require('passport');
 routes.post('/register', user.createUser);//register
 routes.post('/login', passport.authenticate('local', {session : false}), helper.login);
 routes.get('/', auth, user.getUser);
-routes.put('/:id', user.updateUser);
-routes.delete('/:id', user.removeUser);
+routes.put('/:id',auth, user.updateUser);
+routes.delete('/:id', auth, user.removeUser);
 
 module.exports = routes;
