@@ -11,4 +11,5 @@ routes.get('/users', auth, user.getUser);
 routes.put('/users/:id', auth, user.updateUser);
 routes.delete('/users/:id', auth, user.removeUser);
 
+
 module.exports = routes;

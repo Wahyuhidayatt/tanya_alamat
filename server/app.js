@@ -29,12 +29,13 @@ passport.use(new Strategy(function(username, password, cb) {
   })
 }));
 app.use(passport.initialize());
+app.use('/api',users);
+app.use('/api/userTelegram',userTelegram);
 
+// app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 let mongoose= require('mongoose');
 mongoose.connect('mongodb://localhost/tanya_alamat');
-app.use('/api',users);
-app.use('/api/userTelegram',userTelegram);
 
 app.listen(3000, () => {
   console.log("Server berjalan...");
